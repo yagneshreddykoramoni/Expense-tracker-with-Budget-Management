@@ -11,16 +11,44 @@ require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+
+// Configure CORS with specific options
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:8080',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
+// Configure WebSocket server with CORS
+const wss = new WebSocket.Server({ 
+  server,
+  cors: {
+    origin: process.env.FRONTEND_URL || 'http://localhost:8080',
+    methods: ['GET', 'POST']
+  }
+});
 
 // WebSocket connection handling
 const clients = new Set();
 
-wss.on('connection', (ws) => {
+wss.on('connection', (ws, req) => {
+  // Log connection details
+  console.log('New WebSocket connection from:', req.socket.remoteAddress);
   clients.add(ws);
   
+  // Send initial connection success message
+  ws.send(JSON.stringify({
+    type: 'connection',
+    message: 'Connected to server'
+  }));
+  
   ws.on('close', () => {
+    console.log('Client disconnected');
     clients.delete(ws);
+  });
+
+  ws.on('error', (error) => {
+    console.error('WebSocket error:', error);
   });
 });
 
@@ -32,13 +60,16 @@ const broadcastNotification = (notification) => {
   const message = JSON.stringify(notification);
   clients.forEach(client => {
     if (client.readyState === WebSocket.OPEN) {
-      console.log('Sending to client:', message);
-      client.send(message);
+      try {
+        client.send(message);
+        console.log('Successfully sent to client');
+      } catch (error) {
+        console.error('Error sending to client:', error);
+      }
     }
   });
 };
 
-app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection with proper options

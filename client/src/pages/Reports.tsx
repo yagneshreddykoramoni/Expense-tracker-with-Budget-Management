@@ -64,7 +64,7 @@ const Reports = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:3002/categories');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/categories`);
         console.log('Raw categories from database:', response.data); // Debug log
         setCategories(response.data);
       } catch (error) {

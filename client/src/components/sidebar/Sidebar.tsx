@@ -71,7 +71,7 @@ const Sidebar = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:3002/categories');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/categories`);
       setCategories(response.data);
     } catch (error) {
       toast({
@@ -84,7 +84,7 @@ const Sidebar = () => {
 
   const handleAddCategory = async () => {
     try {
-      await axios.post('http://localhost:3002/categories', newCategory);
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/categories`, newCategory);
       toast({
         title: "Category Added",
         description: `Successfully added ${newCategory.name} category`,
@@ -104,7 +104,7 @@ const Sidebar = () => {
     if (!categoryToDelete) return;
 
     try {
-      await axios.delete(`http://localhost:3002/categories/${categoryToDelete._id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/categories/${categoryToDelete._id}`);
       toast({
         title: "Category Deleted",
         description: `Successfully deleted ${categoryToDelete.name} category`,

@@ -70,7 +70,7 @@ const Dashboard = () => {
         setLoading(true);
         
         // Fetch recent activities
-        const activitiesResponse = await axios.get('http://localhost:3002/recent-activities');
+        const activitiesResponse = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/recent-activities`);
         let activitiesData = activitiesResponse.data;
         
         // Sort activities by date (newest first) and limit to top 5

@@ -23,9 +23,14 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const { toast } = useToast();
 
+  // Derive WebSocket URL from API URL
+  const WS_URL = import.meta.env.VITE_API_URL 
+    ? import.meta.env.VITE_API_URL.replace('http', 'ws')
+    : 'ws://localhost:3002';
+
   useEffect(() => {
     // Connect to WebSocket
-    const ws = new WebSocket('ws://localhost:3002');
+    const ws = new WebSocket(WS_URL);
 
     ws.onopen = () => {
       console.log('WebSocket connection established');
@@ -66,7 +71,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return () => {
       ws.close();
     };
-  }, [toast]);
+  }, [toast, WS_URL]);
 
   const markAsRead = (id: string) => {
     setNotifications(prev =>

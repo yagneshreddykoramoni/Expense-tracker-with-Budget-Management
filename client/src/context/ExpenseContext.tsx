@@ -59,7 +59,7 @@ export const ExpenseProvider: React.FC<{ children: ReactNode }> = ({ children })
   // Add fetch functions
   const fetchExpensesData = async () => {
     try {
-      const response = await axios.get('http://localhost:3002/expenses');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/expenses`);
       setExpenses(response.data);
     } catch (error) {
       console.error('Failed to fetch expenses:', error);
@@ -73,7 +73,7 @@ export const ExpenseProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   const fetchBudgetsData = async () => {
     try {
-      const response = await axios.get('http://localhost:3002/budgets');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/budgets`);
       setBudgets(response.data);
     } catch (error) {
       console.error('Failed to fetch budgets:', error);
@@ -87,7 +87,7 @@ export const ExpenseProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   const fetchCategoriesData = async () => {
     try {
-      const response = await axios.get('http://localhost:3002/categories');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/categories`);
       setCategories(response.data);
     } catch (error) {
       console.error('Failed to fetch categories:', error);
@@ -129,7 +129,7 @@ export const ExpenseProvider: React.FC<{ children: ReactNode }> = ({ children })
   const addExpense = async (expense: Omit<Expense, '_id'>) => {
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:3002/expenses', expense);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/expenses`, expense);
       const newExpense = response.data;
       
       // Update expenses state immediately
@@ -169,7 +169,7 @@ export const ExpenseProvider: React.FC<{ children: ReactNode }> = ({ children })
   const updateExpense = async (id: string, expense: Partial<Expense>) => {
     try {
       setLoading(true);
-      const response = await axios.put(`http://localhost:3002/expenses/${id}`, expense);
+      const response = await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/expenses/${id}`, expense);
       // Update expenses state immediately
       setExpenses(prev => prev.map(e => e._id === id ? response.data : e));
       
@@ -191,7 +191,7 @@ export const ExpenseProvider: React.FC<{ children: ReactNode }> = ({ children })
       setLoading(true);
       const expenseToDelete = expenses.find(e => e._id === id);
       
-      await axios.delete(`http://localhost:3002/expenses/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/expenses/${id}`);
       
       // Update expenses state immediately
       setExpenses(prevExpenses => prevExpenses.filter(exp => exp._id !== id));
@@ -212,7 +212,7 @@ export const ExpenseProvider: React.FC<{ children: ReactNode }> = ({ children })
   // Budget functions
   const addBudget = async (budget: Omit<Budget, '_id'>) => {
     try {
-      const response = await axios.post('http://localhost:3002/budgets', budget);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/budgets`, budget);
       setBudgets(prev => [...prev, response.data]);
       return response.data;
     } catch (error) {
@@ -222,7 +222,7 @@ export const ExpenseProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   const updateBudget = async (id: string, budget: Partial<Budget>) => {
     try {
-      const response = await axios.put(`http://localhost:3002/budgets/${id}`, budget);
+      const response = await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/budgets/${id}`, budget);
       setBudgets(prev => prev.map(b => b._id === id ? response.data : b));
       return response.data;
     } catch (error) {
@@ -232,7 +232,7 @@ export const ExpenseProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   const deleteBudget = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:3002/budgets/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/budgets/${id}`);
       setBudgets(prev => prev.filter(b => b._id !== id));
     } catch (error) {
       throw new Error('Failed to delete budget');
@@ -251,7 +251,7 @@ export const ExpenseProvider: React.FC<{ children: ReactNode }> = ({ children })
 
   const deleteCategory = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:3002/categories/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL || 'http://localhost:3002'}/categories/${id}`);
       setCategories(prev => prev.filter(category => category._id !== id));
       return true;
     } catch (error) {

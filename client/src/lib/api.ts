@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Budget, Expense, Category } from './data';
 
-const API_URL = 'http://localhost:3002';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002';
 
 // Budget API functions
 export const fetchBudgets = async () => {
