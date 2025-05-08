@@ -7,6 +7,7 @@ const Category = require('./models/category');
 const RecentActivity = require('./models/recentActivity');
 const WebSocket = require('ws');
 const http = require('http');
+require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
@@ -41,7 +42,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection with proper options
-mongoose.connect('mongodb://127.0.0.1:27017/totalexpenses', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://yagneshreddykoramoni:Nanda@cluster0.rd8mb01.mongodb.net/totalexpenses', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000,
