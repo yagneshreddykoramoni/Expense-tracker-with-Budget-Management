@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -12,5 +14,8 @@
     "mongoose": "^7.0.0",
     "nodemon": "^2.0.22",
     "ws": "^8.18.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
