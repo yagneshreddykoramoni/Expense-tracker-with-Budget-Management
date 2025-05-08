@@ -14,7 +14,7 @@ const server = http.createServer(app);
 
 // Configure CORS with specific options
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:8080',
+  origin: ['https://expense-tracker-wit-git-49a468-yagnesh-reddy-koramonis-projects.vercel.app', 'http://localhost:8080'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
@@ -23,7 +23,7 @@ app.use(cors({
 const wss = new WebSocket.Server({ 
   server,
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:8080',
+    origin: ['https://expense-tracker-wit-git-49a468-yagnesh-reddy-koramonis-projects.vercel.app', 'http://localhost:8080'],
     methods: ['GET', 'POST']
   }
 });
